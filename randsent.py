@@ -114,17 +114,30 @@ class Grammar:
                 if '#' in line:
                     line = line.split('#')[0].strip()
 
+                if not line:
+                    continue
+
+                # Check formatting
                 if len(line.split("\t")) != 3:
                     raise ValueError("Invalid grammar formatting.")
-                
+
                 # split prob lhs rhs on tabs
                 prob, lhs, rhs = line.split("\t")
 
+                # check symbols
+                if "(" in lhs or ")" in lhs or "(" in rhs or ")" in rhs:
+                    raise ValueError("Invalid grammar symbol.")
+
+                # convert prob to float
                 prob = float(prob)
 
+                # check prob
+                if prob <= 0:
+                    raise ValueError("Rule weight must be positive.")
+                
                 # split rhs on whitespace
-                rhs = [word.strip() for word in rhs.split(" ")]
-
+                rhs = rhs.split()
+                
                 # dictionary format is as follows: {lhs: [list of tuples of (probability, rhs)]}
                 if lhs in self.rules:
                     self.rules[lhs].append((prob, rhs))
@@ -154,6 +167,8 @@ class Grammar:
         if self.expansions >= max_expansions:
             return "..."
 
+        self.expansions += 1
+
         output = ""
 
         if(start_symbol in self.rules):
@@ -175,7 +190,6 @@ class Grammar:
                     output += f"{symbol} "
 
                 else:
-                    self.expansions += 1
                     # set _recursive = True to not reset self.expansions
                     output += self.sample(derivation_tree, max_expansions, symbol, True)
 
@@ -219,7 +233,7 @@ def main():
     #         print(sentence)
 
     grammar = Grammar("grammar.gr")
-    sentence = grammar.sample(derivation_tree = True, max_expansions = 100)
+    sentence = grammar.sample(derivation_tree = True, max_expansions = 5)
     prettyprint_path = os.path.join(os.getcwd(), 'prettyprint')
     subprocess.run(
         ['perl', prettyprint_path],

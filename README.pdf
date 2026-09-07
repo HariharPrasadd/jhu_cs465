@@ -1,0 +1,88 @@
+# Homework 1 Answers - Harihar Prasad Deepak (hdeepak1)
+
+## 1.4:
+1. Ten random sentences are as follows: 
+    i. a delicious fine president on every sandwich on a president wanted a floor !
+    ii. a sandwich under the president pickled every pickle ! 
+    iii. a chief of staff kissed the pickle .
+    iv. a chief of staff in every president in a sandwich on every pickle understood a sandwich on the chief of staff on 
+    every pickle under every president under the pickle under the pickle on the sandwich under the chief of staff on the sandwich under 
+    every chief of staff in every floor in every sandwich under every floor in every pickle in a sandwich on a sandwich on the sandwich 
+    under a fine sandwich with every pickle under a president with every chief of staff with a president with a fine pickle in every chief 
+    of staff on a president under every floor with the chief of staff on the sandwich on every pickle in every pickle under every chief of 
+    staff with the pickle on the chief of staff with the fine president on the pickle with every floor with a floor on a floor under the 
+    president in the pickle under a floor in the president in a delicious chief of staff on a floor with the fine pickle under every chief 
+    of staff on every chief of staff with a pickled floor with every perplexed fine floor with a pickle on the chief of staff under the 
+    sandwich on every president under the chief of staff with every president on every sandwich on a president under a chief of staff under a pickle 
+    in a floor !
+    v. is it true that the pickle ate a sandwich in a floor on the pickle on the chief of staff with the floor under the floor ?
+    vi. is it true that a president under a pickle under a president in the chief of staff in a pickle in a chief of staff with the sandwich with the pickle 
+    under the floor with the sandwich with every sandwich on a fine president in every chief of staff with a pickle pickled the sandwich ?
+    vii. a sandwich kissed a pickle .
+    viii. the pickle understood a sandwich in every chief of staff !
+    ix. the sandwich under the president in a president on a chief of staff in a president with a fine delicious perplexed floor on a chief of staff with 
+    a chief of staff under the sandwich in the president in the fine president understood a floor .
+    x. the sandwich under a sandwich kissed every pickle on a floor with the president in a chief of staff under the chief of staff on a president under a 
+    chief of staff with the pickle with the pickle in the chief of staff with a sandwich with a floor on the floor in the sandwich on a chief of staff in 
+    every perplexed chief of staff on every fine sandwich under every sandwich with the delicious delicious sandwich under the delicious president with a 
+    floor in a sandwich on the pickled pickle in every floor under every floor on every pickle on a floor under the perplexed delicious delicious pickle 
+    in a president with the president with a floor in a chief of staff under every pickle .
+
+2. 2 random sentences generated using my script, with --tree:
+    i. (ROOT (S (NP (NP (Det the)
+                 (Noun pickle))
+             (PP (Prep with)
+                 (NP (Det every)
+                     (Noun chief
+                           of
+                           staff))))
+         (VP (Verb understood)
+             (NP (NP (Det every)
+                     (Noun pickle))
+                 (PP (Prep in)
+                     (NP (NP (NP (NP (Det every)
+                                     (Noun floor))
+                                 (PP (Prep in)
+                                     (NP (NP (NP (Det every)
+                                                 (Noun pickle))
+                                             (PP (Prep with)
+                                                 (NP (Det a)
+                                                     (Noun chief
+                                                           of
+                                                           staff))))
+                                         (PP (Prep in)
+                                             (NP (Det a)
+                                                 (Noun (Adj delicious)
+                                                       (Noun chief
+                                                             of
+                                                             staff)))))))
+                             (PP (Prep with)
+                                 (NP (Det the)
+                                     (Noun sandwich))))
+                         (PP (Prep with)
+                             (NP (Det a)
+                                 (Noun president))))))))
+      .)
+      ii. (ROOT is
+                it
+                true
+                that
+                (S (NP (Det every)
+                        (Noun sandwich))
+                    (VP (Verb pickled)
+                        (NP (Det the)
+                            (Noun (Adj delicious)
+                                (Noun (Adj pickled)
+                                        (Noun pickle))))))
+                ?)
+
+3. 2 generations with --tree, but with max_expansions set to 5: 
+    i. (ROOT (S (NP (NP (Det the)
+                 ...)
+             ...)
+         ...)
+      !)
+    ii. (ROOT (S (NP (Det a)
+             (Noun president))
+         ...)
+      !)
