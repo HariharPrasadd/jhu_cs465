@@ -92,8 +92,8 @@ class Grammar:
         Returns:
             self
         """
-        # Parse the input grammar file
-        self.rules = None
+        # Initialize rules as an empty dict
+        self.rules = {}
         self._load_rules_from_file(grammar_file)
 
     def _load_rules_from_file(self, grammar_file):
@@ -103,7 +103,24 @@ class Grammar:
         Args:
             grammar_file (str): Path to the raw grammar file 
         """
-        raise NotImplementedError
+
+        with open(grammar_file, "r") as f:
+            # only adds lines that are not commented and not whitespaced to the list
+            lines = (line.strip() for line in f if line.strip() and not line.startswith("#"))
+
+            for line in lines: 
+                # split prob lhs rhs on tabs
+                prob, lhs, rhs = line.split("\t")
+
+                # remove inline comments
+                if '#' in rhs: 
+                    rhs = rhs.split('#')[0].strip()
+
+                # store in dict as nonterminal/preterminal: (relative odds, formulation)
+                if lhs in self.rules:
+                    self.rules[lhs].append((prob, rhs))
+                else:
+                    self.rules[lhs] = [(prob, rhs)]
 
     def sample(self, derivation_tree, max_expansions, start_symbol):
         """
@@ -154,7 +171,6 @@ def main():
             )
         else:
             print(sentence)
-
 
 if __name__ == "__main__":
     main()
