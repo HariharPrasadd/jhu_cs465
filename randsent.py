@@ -107,22 +107,31 @@ class Grammar:
         with open(grammar_file, "r") as f:
             # only adds lines that are not commented and not whitespaced to the list
             lines = (line.strip() for line in f if line.strip() and not line.startswith("#"))
-
+                
             for line in lines: 
+                # remove inline comments
+                if '#' in line:
+                    line = line.split('#')[0].strip()
+
+                if len(line.split("\t")) != 3:
+                    raise ValueError("Invalid grammar formatting.")
+                
                 # split prob lhs rhs on tabs
                 prob, lhs, rhs = line.split("\t")
 
-                # remove inline comments
-                if '#' in rhs: 
-                    rhs = rhs.split('#')[0].strip()
+                prob = float(prob)
 
-                # store in dict as nonterminal/preterminal: (relative odds, formulation)
+                # split rhs on whitespace
+                rhs = [word.strip() for word in rhs.split(" ")]
+
+                # dictionary format is as follows: {lhs: [list of tuples of (probability, rhs)]}
                 if lhs in self.rules:
                     self.rules[lhs].append((prob, rhs))
+
                 else:
                     self.rules[lhs] = [(prob, rhs)]
 
-    def sample(self, derivation_tree, max_expansions, start_symbol):
+    def sample(self, derivation_tree=False, max_expansions=450, start_symbol="ROOT"):
         """
         Sample a random sentence from this grammar
 
@@ -138,7 +147,28 @@ class Grammar:
         Returns:
             str: the random sentence or its derivation tree
         """
-        raise NotImplementedError
+
+        if(not derivation_tree):
+            if(start_symbol in self.rules):
+                # taking the different formulations of lhs
+                options = self.rules[start_symbol]
+
+                # creating weight and value lists 
+                weights = [x[0] for x in options]
+                values = [x[1] for x in options]
+
+                # drawing an appropriately weighted formulation of rhs 
+                next_symbol = random.choices(values, weights=weights, k=1)[0]
+
+                for symbol in next_symbol:
+                    if symbol not in self.rules:
+                        print(f"{symbol}", end = " ")
+
+                    else:
+                        self.sample(derivation_tree, max_expansions - 1, symbol)
+                
+            else:
+                raise ValueError("Invalid start symbol.")
 
 
 ####################
@@ -146,31 +176,34 @@ class Grammar:
 ####################
 def main():
     # Parse command-line options
-    args = parse_args()
+    # args = parse_args()
 
-    # Initialize Grammar object
-    grammar = Grammar(args.grammar)
+    # # Initialize Grammar object
+    # grammar = Grammar(args.grammar)
 
-    # Generate sentences
-    for i in range(args.num_sentences):
-        # Use Grammar object to generate sentence
-        sentence = grammar.sample(
-            derivation_tree=args.tree,
-            max_expansions=args.max_expansions,
-            start_symbol=args.start_symbol
-        )
+    # # Generate sentences
+    # for i in range(args.num_sentences):
+    #     # Use Grammar object to generate sentence
+    #     sentence = grammar.sample(
+    #         derivation_tree=args.tree,
+    #         max_expansions=args.max_expansions,
+    #         start_symbol=args.start_symbol
+    #     )
 
-        # Print the sentence with the specified format.
-        # If it's a tree, we'll pipe the output through the prettyprint script.
-        if args.tree:
-            prettyprint_path = os.path.join(os.getcwd(), 'prettyprint')
-            subprocess.run(
-                ['perl', prettyprint_path],
-                input=sentence,
-                text=True
-            )
-        else:
-            print(sentence)
+    #     # Print the sentence with the specified format.
+    #     # If it's a tree, we'll pipe the output through the prettyprint script.
+    #     if args.tree:
+    #         prettyprint_path = os.path.join(os.getcwd(), 'prettyprint')
+    #         subprocess.run(
+    #             ['perl', prettyprint_path],
+    #             input=sentence,
+    #             text=True
+    #         )
+    #     else:
+    #         print(sentence)
+
+    grammar = Grammar("grammar.gr")
+    grammar.sample()
 
 if __name__ == "__main__":
     main()
