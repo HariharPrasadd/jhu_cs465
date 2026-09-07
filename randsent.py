@@ -94,6 +94,7 @@ class Grammar:
         """
         # Initialize rules as an empty dict
         self.rules = {}
+        self.expansions = 0
         self._load_rules_from_file(grammar_file)
 
     def _load_rules_from_file(self, grammar_file):
@@ -131,7 +132,7 @@ class Grammar:
                 else:
                     self.rules[lhs] = [(prob, rhs)]
 
-    def sample(self, derivation_tree=False, max_expansions=450, start_symbol="ROOT"):
+    def sample(self, derivation_tree=False, max_expansions=450, start_symbol="ROOT", _recursive = False):
         """
         Sample a random sentence from this grammar
 
@@ -147,29 +148,44 @@ class Grammar:
         Returns:
             str: the random sentence or its derivation tree
         """
+        if not _recursive:
+            self.expansions = 0
 
-        if(not derivation_tree):
-            if(start_symbol in self.rules):
-                # taking the different formulations of lhs
-                options = self.rules[start_symbol]
+        if self.expansions >= max_expansions:
+            return "..."
 
-                # creating weight and value lists 
-                weights = [x[0] for x in options]
-                values = [x[1] for x in options]
+        output = ""
 
-                # drawing an appropriately weighted formulation of rhs 
-                next_symbol = random.choices(values, weights=weights, k=1)[0]
+        if(start_symbol in self.rules):
+            # taking the different formulations of lhs
+            options = self.rules[start_symbol]
 
-                for symbol in next_symbol:
-                    if symbol not in self.rules:
-                        print(f"{symbol}", end = " ")
+            # creating weight and value lists 
+            weights = [x[0] for x in options]
+            values = [x[1] for x in options]
 
-                    else:
-                        self.sample(derivation_tree, max_expansions - 1, symbol)
-                
-            else:
-                raise ValueError("Invalid start symbol.")
+            # drawing an appropriately weighted formulation of rhs 
+            next_symbol = random.choices(values, weights=weights, k=1)[0]
 
+            if(derivation_tree):
+                output += f"({start_symbol} "
+
+            for symbol in next_symbol:
+                if symbol not in self.rules:
+                    output += f"{symbol} "
+
+                else:
+                    self.expansions += 1
+                    # set _recursive = True to not reset self.expansions
+                    output += self.sample(derivation_tree, max_expansions, symbol, True)
+
+            if(derivation_tree):
+                output += ") "
+
+        else:
+            raise ValueError("Invalid start symbol.")
+        
+        return output
 
 ####################
 ### Main Program
@@ -203,7 +219,13 @@ def main():
     #         print(sentence)
 
     grammar = Grammar("grammar.gr")
-    grammar.sample()
+    sentence = grammar.sample(derivation_tree = True, max_expansions = 100)
+    prettyprint_path = os.path.join(os.getcwd(), 'prettyprint')
+    subprocess.run(
+        ['perl', prettyprint_path],
+        input=sentence,
+        text=True
+    )
 
 if __name__ == "__main__":
     main()
