@@ -206,40 +206,31 @@ class Grammar:
 ####################
 def main():
     # Parse command-line options
-    # args = parse_args()
+    args = parse_args()
 
-    # # Initialize Grammar object
-    # grammar = Grammar(args.grammar)
+    # Initialize Grammar object
+    grammar = Grammar(args.grammar)
 
-    # # Generate sentences
-    # for i in range(args.num_sentences):
-    #     # Use Grammar object to generate sentence
-    #     sentence = grammar.sample(
-    #         derivation_tree=args.tree,
-    #         max_expansions=args.max_expansions,
-    #         start_symbol=args.start_symbol
-    #     )
+    # Generate sentences
+    for i in range(args.num_sentences):
+        # Use Grammar object to generate sentence
+        sentence = grammar.sample(
+            derivation_tree=args.tree,
+            max_expansions=args.max_expansions,
+            start_symbol=args.start_symbol
+        )
 
-    #     # Print the sentence with the specified format.
-    #     # If it's a tree, we'll pipe the output through the prettyprint script.
-    #     if args.tree:
-    #         prettyprint_path = os.path.join(os.getcwd(), 'prettyprint')
-    #         subprocess.run(
-    #             ['perl', prettyprint_path],
-    #             input=sentence,
-    #             text=True
-    #         )
-    #     else:
-    #         print(sentence)
-
-    grammar = Grammar("grammar.gr")
-    sentence = grammar.sample(derivation_tree = True, max_expansions = 5)
-    prettyprint_path = os.path.join(os.getcwd(), 'prettyprint')
-    subprocess.run(
-        ['perl', prettyprint_path],
-        input=sentence,
-        text=True
-    )
+        # Print the sentence with the specified format.
+        # If it's a tree, we'll pipe the output through the prettyprint script.
+        if args.tree:
+            prettyprint_path = os.path.join(os.getcwd(), 'prettyprint')
+            subprocess.run(
+                ['perl', prettyprint_path],
+                input=sentence,
+                text=True
+            )
+        else:
+            print(sentence)
 
 if __name__ == "__main__":
     main()

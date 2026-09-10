@@ -1,6 +1,8 @@
 # Homework 1 Answers - Harihar Prasad Deepak (hdeepak1)
 
-## 1.4:
+## Part 1
+
+### 1.4:
 1. Ten random sentences are as follows: 
     i. a delicious fine president on every sandwich on a president wanted a floor !
     ii. a sandwich under the president pickled every pickle ! 
@@ -86,3 +88,96 @@
              (Noun president))
          ...)
       !)
+
+## Part 2
+
+### 2.1:
+1. The program generates so many long sentences primarily because of these two rules: 
+   NP -> NP PP
+   PP -> Prep NP.
+   They're special because this definition is NP is heavily recursive (calling NP returns NP and PP, and calling PP returns NP again).
+
+2. In our grammar, consecutive adjectives only occur if "Noun" calls "Adj Noun" twice consecutively - that is: 
+    (Noun (Adj (Noun (Adj Noun)))). However, since we have five other terminal nouns (president, sandwich etc) the probability of "Noun" resolving to 
+    "Adj Noun" a single time is 1/6, and the odds of it happening twice in a row are even lower, at 1/36. That's why we don't see consecutive adjectives
+    as often.
+
+3. To make sentences shorter, you could either upweight the probability that NP resolves to (Det Noun) from 1 to a higher number, or you could downweight the 
+    probability that NP resolves to (NP PP). The two are functionally the same. 
+
+    To make adjectives more frequent, you upweight the probability that Noun resolves to (Adj Noun).
+
+4. After experimenting, apart from finetuning the probability that NP resolves to (NP PP) and the probability that Noun resolves to (Adj Noun), the
+   changes that I found resulted in more understandable sentences were primarily lexical. I reranked the determiners, making (the, a, every) (3, 2, 1) respectively, 
+   to better reflect their frequency in the english language. I also downranked the verb "pickled" to 0.2 from 1, since it occurs much less frequently than the 
+   rest of the verbs in the context of the nouns in the grammar.
+
+5. Ten random sentences from grammar2.gr are as follows: 
+    1. is it true that a pickle ate a pickle in the president under every president in every sandwich in the chief of staff ?
+    2. a chief of staff in the fine sandwich under the chief of staff with the sandwich with the pickle with the perplexed pickled fine sandwich on the delicious chief of staff wanted the delicious pickle !
+    3. the pickled floor with the delicious chief of staff with the pickled fine perplexed sandwich understood a fine floor !
+    4. is it true that a fine pickle in the chief of staff in the pickled perplexed pickle wanted the floor with every pickled fine chief of staff with the fine pickle in every sandwich under a perplexed pickle ? 
+    5. a pickle ate the perplexed fine sandwich under the delicious pickle .
+    6. the delicious perplexed fine chief of staff ate the floor .
+    7. a pickle understood a pickle .
+    8. a pickled perplexed perplexed pickle pickled a pickle !
+    9. the pickle wanted every perplexed sandwich in a fine pickle .
+    10. is it true that the fine picklead pickled president kissed the chief of staff ?
+
+### 2.3:
+
+9. First I added all the new words to the vocabulary. Then I split "Nouns" into Proper Nouns (PropNoun) and Common Nouns (ComNoun), and added NP -> Det ComNoun and
+NP -> PropNoun to disallow phrases like "every Sarah" or "the Sarah". Then I added the rule NP -> NP Conj NP to allow for phrases like "Sarah and the president", along 
+with the rule VP -> Verb Conj VP to allow sentences like "wanted and ate a sandwich". Then I added "sighed" into a new Intransitive Verb (InVerb) category, and added
+the rule VP -> InVerb, to allow S -> NP VP structure to generate sentences like "The president sighed.". Then I added special rules to allow construction of sentences 
+using "that" by introducing a Complementizer Phrase (CP) such that CP -> Comp S, then added a new Transitive Verb (TransVerb) category for verbs to operate on these 
+Complementizer Phrases. Then I added the capability for many adverbs with the Adj -> Adv Adj rule, and Adv -> very. Finally, I added a Prepositional Verb (PrepVerb)
+category for verbs that allow a preposition after them, and then added a VP -> PrepVerb PP rule to allow sentences like "The president worked on the table."
+
+10. Ten random sentences from grammar3.gr are as follows: 
+    1. the sandwich and Sally and a sandwich and Sally and the chief of staff and Sally ate Sally ! 
+    2. that that that it perplexed Sally that it perplexed Sally that Sally sighed perplexed the president on the delicious floor with Sally on the fine sandwich under the desk under Sally and a proposal in a proposal and Sally on Sally and the floor and Sally and Sally and every proposal under Sally with Sally and Sally and Sally in Sally and Sally and Sally and Sally and the perplexed delicious fine fine proposal and the chief of staff perplexed every pickled sandwich perplexed a floor ! 
+    3. is it true that that every sandwich understood that Sally sighed perplexed a fine sandwich ? 
+    4. that it perplexed Sally that the pickled floor sighed perplexed Sally under the perplexed president in Sally and every very fine floor on Sally and every very very perplexed proposal and Sally and Sally and Sally . 
+    5. that the floor thought and wanted and worked and thought that Sally and a president ate and worked every proposal and every chief of staff and a perplexed desk and Sally and the sandwich and every delicious president with Sally perplexed Sally with every proposal ! 
+    6. Sally ate Sally . 
+    7. Sally and Sally under Sally and the proposal and Sally and Sally in the delicious sandwich sighed . 
+    8. the fine perplexed floor under Sally and Sally and the pickled pickled very delicious very fine pickle worked with a desk in a pickle ! 
+    9. Sally and Sally under the pickle and Sally kissed and sighed . 
+    10. that the pickle and a delicious delicious sandwich with the proposal and Sally sighed perplexed the proposal ! 
+
+## Part 3
+
+### 3.1:
+
+(a) The other derivation is:
+(ROOT
+  (S
+    (NP
+      (NP
+        (Det every)
+        (Noun sandwich))
+      (PP
+        (Prep with)
+        (NP
+          (NP
+            (Det a)
+            (Noun pickle))
+          (PP
+            (Prep on)
+            (NP
+              (Det the)
+              (Noun floor))))))
+    (VP
+      (Verb wanted)
+      (NP
+        (Det a)
+        (Noun president))))
+  .)
+
+(b) Yes, the derivation does matter. In the original formulation, "on the floor" was a prepositional phrase attached to "every sandwich with a pickle", which 
+means that the sandwich as a whole, with the pickle, was on the floor. In our new formulation, on the floor is attached to "a pickle", which now means that
+every sandwich has a pickle that was on the floor, but the sandwich itself was never on the floor, and it is this sandwich that has a pickle that was
+on the floor that wants a president.
+
+
