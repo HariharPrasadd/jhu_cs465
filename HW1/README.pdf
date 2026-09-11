@@ -128,7 +128,8 @@
 
 9. First I added all the new words to the vocabulary. Then I split "Nouns" into Proper Nouns (PropNoun) and Common Nouns (ComNoun), and added NP -> Det ComNoun and
 NP -> PropNoun to disallow phrases like "every Sarah" or "the Sarah". Then I added the rule NP -> NP Conj NP to allow for phrases like "Sarah and the president", along 
-with the rule VP -> Verb Conj VP to allow sentences like "wanted and ate a sandwich". Then I added "sighed" into a new Intransitive Verb (InVerb) category, and added
+with the rule VP -> CoordVerb Conj VP to allow sentences like "wanted and ate a sandwich", and made a new Coordverb category to disallow sentences like "The president
+perplexed and sighed." in conjuction with the Intransitive Verb rule. Then I added "sighed" into a new Intransitive Verb (InVerb) category, and added
 the rule VP -> InVerb, to allow S -> NP VP structure to generate sentences like "The president sighed.". Then I added special rules to allow construction of sentences 
 using "that" by introducing a Complementizer Phrase (CP) such that CP -> Comp S, then added a new Transitive Verb (TransVerb) category for verbs to operate on these 
 Complementizer Phrases. Then I added the capability for many adverbs with the Adj -> Adv Adj rule, and Adv -> very. Finally, I added a Prepositional Verb (PrepVerb)
@@ -281,3 +282,54 @@ grammar3 entropy on grammar2 corpus: 2.988 bits/word
 
 So yes, our assumption that grammar2 predicts the grammar2 corpus better holds true. We also see that grammar predicts the grammar2 corpus better than grammar3 - 
 this is probably because grammar2 is considerably closer to grammar than grammar3. More similar rules, not as much extra vocabulary, no conjuctions, etc.
+
+## Part 4
+
+4.1. The two changes I chose to implement were (a) and (b). For (a), I first introduced three ComNouns that start with vowels (apple, orange, umbrella) as 
+VowComNoun and two Adjs that start with a vowel (amazing, ambivalent) as VowAdj. I then split determiners into Det (every, the), which works with both vowel 
+and consonant starting phrases, VowDet (an), which works only with phrases starting with a vowel, and NoVowDet(a) which works only with phrases that don't
+start with a vowel. I then renamed normal ComNouns and Adjs (those that don't start with vowels) to NoVowComNoun and NoVowAdj respectively. 
+
+Then I introduced the following rules (comments only in this version): 
+
+1	NP	Det ComNoun                         # the, every can work with every common noun
+1   NP  NoVowDet NonVowPhrase               # a can only work with phrases that don't start with vowels
+1   NP  VowDet VowPhrase                    # an can only work with phrases that start with vowels
+
+                                            # non vowel phrases can be:
+1   NonVowPhrase    NoVowComNoun            # a common noun that doesn't start with a vowel (eg president)
+1   NonVowPhrase    NoVowAdj ComNoun        # an adjective that doesn't start with a vowel followed by any common noun (eg fine apple, perplexed president)
+1   NonVowPhrase    AdvPhrase ComNoun       # our only adverb (very) followed by anything - we use advphrase to ensure that we get an adverb, and to leave possibility
+                                            # for recursive verys (eg very very very ambivalent apple)
+
+                                            # vowel phrases can be:
+1   VowPhrase   VowAdj  ComNoun             # an adjective starting with a vowel followed by a common noun (eg amazing president, ambivalent very perplexed floor)
+1   VowPhrase   VowComNoun                  # a common noun starting with a vowel (eg umbrella)
+  
+2	ComNoun	Adj ComNoun                     # this section just lets ComNoun decompose into either NoVowComNoun or VowComNoun 
+1   ComNoun NoVowComNoun
+1   ComNoun VowComNoun 
+
+0.7	Adj	Adv Adj                             # this section lets adjectives decompose into either NoVowAdj or VowAdj
+1   Adj NoVowAdj
+1   Adj VowAdj
+
+1   AdvPhrase   Adv Adj                     # allows for 100% probability of very + recursive formulations (very very very)
+
+For (b), I first introduced the new question component, Q, and added a new ROOT formulation of "1   ROOT    Q ?". I then basically had to create a parallel 
+formulation for Q for almost all of the S rules by adding an AuxVerb at the start (did or will) followed by replacing by normal Verb Phrases with Question Verb
+Phrases that brought ALL verbs that were not in a Comparative Phrase into the present tense: the rules are as follows: 
+
+4	Q	AuxVerb NP QVP
+1	Q	AuxVerb Expl PresTransVerb NP CP
+1	Q	AuxVerb CP PresTransVerb NP
+
+1	QVP	PresVerb NP
+1	QVP	PresCoordVerb Conj QVP
+1	QVP	PresInVerb
+1	QVP	PresPrepVerb PP
+1	QVP	PresVerbC CP
+
+Then I just had to go in and change the vocabulary itself to turn ate -> eat, thought -> think, etc etc for all verbs to make them appropriate to ask questions.
+
+Note: This homework assignment was so, so, so, so long. It took me ~15 hours to complete. Very fun though!

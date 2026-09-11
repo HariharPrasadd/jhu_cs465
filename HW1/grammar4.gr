@@ -1,0 +1,193 @@
+# Symbols in the grammar are case-sensitive.
+#
+# This grammar uses a convention that
+#    - terminals are usually lowercase  (president)
+#    - preterminals are capitalized     (Noun)
+#    - other nonterminals are all-caps  (NP)
+#
+# This convention just makes grammars more readable to humans. Thus:
+#
+#    - When *you* are writing grammars in questions 3 and 6, you should
+#      follow this convention unless you have a good reason not to.
+#
+#    - But your *program* should still work with grammars that don't
+#      follow this convention. So how can your program reliably tell
+#      the difference between terminal and nonterminal symbols? If
+#      there is at least one rule for rewriting a symbol, then that
+#      symbol is a nonterminal and should be rewritten.
+#######################
+
+# Rules for creating full sentences.
+
+1	ROOT	S .
+1	ROOT	S !
+1	ROOT	is it true that S ?     # mixing terminals and nonterminals is ok.
+1	ROOT	Q ?
+
+# The basic grammar rules. Here's what the abbreviations stand for:
+#    S = sentence
+#    Q = question
+#    NP = noun phrase
+#    PropNoun = proper noun
+#    ComNoun = common noun
+#    VP = verb phrase
+#    PP = prepositional phrase
+#    CP = complementizer phrase
+#    Det = determiner (sometimes called "article")
+#    Prep = preposition
+#    Adj = adjective
+#    Conj = conjunction
+#    Comp = complementizer
+#    Expl = expletive/dummy it
+#    Adv = adverb
+#    InVerb = intransitive verb
+#    VerbC = verbs that accept complement clauses (clauses with that)
+#    PrepVerb = verbs that accept a prepositional phrase after them
+#    AuxVerb = auxiliary verb for questions (did, will)
+#    PresVerb = bare-form verbs used in QVP
+#    QVP = verb phrases used in questions
+
+4	S	NP VP
+1	S	Expl TransVerb NP CP
+1	S	CP TransVerb NP
+
+4	Q	AuxVerb NP QVP
+1	Q	AuxVerb Expl PresTransVerb NP CP
+1	Q	AuxVerb CP PresTransVerb NP
+
+1	VP	Verb NP
+1	VP	CoordVerb Conj VP
+1	VP	InVerb
+1	VP	PrepVerb PP
+1	VP	VerbC CP
+
+1	QVP	PresVerb NP
+1	QVP	PresCoordVerb Conj QVP
+1	QVP	PresInVerb
+1	QVP	PresPrepVerb PP
+1	QVP	PresVerbC CP
+
+1	CP	Comp S
+
+1	NP	Det ComNoun
+1	NP	NoVowDet NonVowPhrase
+1	NP	VowDet VowPhrase
+1	NP	PropNoun
+1	NP	NP Conj NP
+0.5	NP	NP PP
+
+1	NonVowPhrase	NoVowComNoun
+1	NonVowPhrase	NoVowAdj ComNoun
+1	NonVowPhrase	AdvPhrase ComNoun
+
+1	VowPhrase	VowAdj ComNoun
+1	VowPhrase	VowComNoun
+
+1	PP	Prep NP
+
+2	ComNoun	Adj ComNoun
+1	ComNoun	NoVowComNoun
+1	ComNoun	VowComNoun
+
+0.7	Adj	Adv Adj
+1	Adj	NoVowAdj
+1	Adj	VowAdj
+
+1	AdvPhrase	Adv Adj
+
+# Vocabulary. Your program can see that "ate" is a terminal
+# symbol because there exists no rule for rewriting it.
+# Any symbol that can rewrite as a terminal (or a string of
+# terminals, like "chief of staff") is called a "preterminal." Notice
+# that a preterminal is a special kind of nonterminal.
+
+1	Verb	ate
+1	Verb	wanted
+1	Verb	kissed
+1	Verb	understood
+0.2	Verb	pickled
+1	Verb	perplexed
+
+1	PresVerb	eat
+1	PresVerb	want
+1	PresVerb	kiss
+1	PresVerb	understand
+0.2	PresVerb	pickle
+1	PresVerb	perplex
+
+1	CoordVerb	ate
+1	CoordVerb	worked
+1	CoordVerb	understood
+1	CoordVerb	thought
+1	CoordVerb	wanted
+
+1	PresCoordVerb	eat
+1	PresCoordVerb	work
+1	PresCoordVerb	understand
+1	PresCoordVerb	think
+1	PresCoordVerb	want
+
+1	InVerb	sighed
+
+1	PresInVerb	sigh
+
+1	TransVerb	perplexed
+
+1	PresTransVerb	perplex
+
+1	PrepVerb	worked
+
+1	PresPrepVerb	work
+
+1	VerbC	thought
+1	VerbC	understood
+1	VerbC	knew
+
+1	PresVerbC	think
+1	PresVerbC	understand
+1	PresVerbC	know
+
+3	Det	the
+1	Det	every
+
+2	NoVowDet	a
+
+1	VowDet	an
+
+1	NoVowComNoun	president
+1	NoVowComNoun	sandwich
+1	NoVowComNoun	pickle
+1	NoVowComNoun	chief of staff
+1	NoVowComNoun	floor
+1	NoVowComNoun	proposal
+1	NoVowComNoun	desk
+
+1	VowComNoun	apple
+1	VowComNoun	orange
+1	VowComNoun	umbrella
+
+1	PropNoun	Sally
+
+1	NoVowAdj	fine
+1	NoVowAdj	delicious
+1	NoVowAdj	perplexed
+1	NoVowAdj	pickled
+
+1	VowAdj	amazing
+1	VowAdj	ambivalent
+
+1	Prep	with
+1	Prep	on
+1	Prep	under
+1	Prep	in
+
+1	Conj	and
+
+1	Comp	that
+
+1	Expl	it
+
+1	Adv	very
+
+1	AuxVerb	did
+1	AuxVerb	will

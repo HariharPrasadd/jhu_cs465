@@ -41,13 +41,14 @@
 #    InVerb = intransitive verb
 #    VerbC = verbs that accept complement clauses (clauses with that)
 #    PrepVerb = verbs that accept a prepositional phrase after them
+#    CoordVerb = verbs that are allowed to appear before "and" without their own object
 
 4	S	NP VP
 1	S	Expl TransVerb NP CP
 1	S	CP TransVerb NP
 
 1	VP	Verb NP
-1	VP	Verb Conj VP
+1	VP	CoordVerb Conj VP
 1	VP	InVerb
 1	VP	PrepVerb PP
 1	VP	VerbC CP
@@ -76,9 +77,13 @@
 1	Verb	kissed
 1	Verb	understood
 0.2	Verb	pickled
-1	Verb	thought
-1	Verb	worked
 1	Verb	perplexed
+
+1	CoordVerb	ate
+1	CoordVerb	worked
+1	CoordVerb	understood
+1	CoordVerb	thought
+1	CoordVerb	wanted
 
 1	InVerb	sighed
 
