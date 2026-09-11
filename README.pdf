@@ -239,4 +239,45 @@ p(best_parse | sentence) = 1, again, because there's only one possible way of pa
 tree is the best parse is 100%, or 1. 
 
 (b) Here, p(best_parse | sentence) = 0.5 because there's 2 different ways of parsing the sentence that are both equally probable - ie, multiplying the probability
-of choosing each word or formulation at each step gives you the same probability for both the parse trees. 
+of choosing each word or formulation at each step gives you the same probability for both the parse trees.
+
+(c) Information theory defines the "surprise" of an event, which we encode in bits, as −log2​p. Cross entropy is basically the average surprise of each word
+in the corpus. Thus, cross-entropy = 2.435 bits = -(-43.833 log-prob. / 18 words) can be decomposed as follows: -43.833 log-probability adds the base-2 log
+probabilities of the two sentences to get total surprise: log2(5.144e-05) + log2(1.240e-09) = -43.833. To average this surprise, we divide by the total number
+of words, which is 18, which gives us -2.435. Then since surprise is -log2p, we negate the entire thing again to get 2.435, which is the average number of
+bits of each word in the corpus, which is how "surprising" each word is based on the probability of it occuring.
+
+(d) Perplexity is just cross-entropy taken out of the log, which in this case is 2^2.435 ~ 5.4. 
+
+(e) The grammar assigns the president ate . probability 0 because VP -> Verb NP requires an object after every verb. Since -log2(0)= infinity, any corpus 
+containing that sentence has infinite cross-entropy, meaning the compression program can't compress this corpus at all.
+
+6. 
+(a) The average entropy of grammar2 in bits per word is 2.204. This is the command I used to compute it: 
+
+python3 randsent.py -n 10000 -g grammar2.gr \
+| grep -v '\.\.\.' \
+| ./parse -P -g grammar2.gr \
+| grep "cross-entropy" \
+| awk '$4 != "inf" {sum += $4; n++} END {print sum / n}'
+
+The pipe generates 10,000 random sentences from grammar2.gr, removes any truncated ones containing ..., parses the remaining sentences with the same grammar,
+keeps only the cross-entropy outputs, ignores any infinite values, and averages the remaining cross-entropies.
+
+(b) grammar3 has a higher entropy than grammar2 - 2.255 compared to 2.204, calculated over 10,000 samples. The entropy probably increases due to the increased
+vocabulary and the new clause structures, but doesn't get too much bigger since the new structures are not quite random and most of the variability comes from
+NP and PP structures that were already present in grammar2.
+
+(c) The original grammar is difficult to estimate entropy for by sampling because NP -> NP PP and PP -> Prep NP create a recursive loop that can produce extremely 
+long noun phrases. Some generated sentences hit the maximum-expansion limit and contain ..., which are not valid sentences in the grammar, so the parser assigns 
+them probability 0 and the cross-entropy becomes infinite or undefined. Grammar2 reduces this problem by lowering the weight of NP -> NP PP, making runaway 
+recursion much less common, and since Grammar3 is adapted from Grammar2 the fix carries over.
+
+7. Computing the numbers gives this: 
+
+grammar2 entropy on grammar2 corpus: 2.208 bits/word
+grammar entropy on grammar2 corpus:  2.392 bits/word
+grammar3 entropy on grammar2 corpus: 2.988 bits/word
+
+So yes, our assumption that grammar2 predicts the grammar2 corpus better holds true. We also see that grammar predicts the grammar2 corpus better than grammar3 - 
+this is probably because grammar2 is considerably closer to grammar than grammar3. More similar rules, not as much extra vocabulary, no conjuctions, etc.
