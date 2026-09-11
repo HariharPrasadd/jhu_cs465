@@ -150,6 +150,7 @@ category for verbs that allow a preposition after them, and then added a VP -> P
 
 ### 3.1:
 
+1. 
 (a) The other derivation is:
 (ROOT
   (S
@@ -180,4 +181,62 @@ means that the sandwich as a whole, with the pickle, was on the floor. In our ne
 every sandwich has a pickle that was on the floor, but the sandwich itself was never on the floor, and it is this sandwich that has a pickle that was
 on the floor that wants a president.
 
+2. Yes, the parser does misunderstand the original derivation that was "intended" by randsent on grammar3. The two main rules responsible for this are 
+NP -> NP Conj NP and NP -> NP PP. For example, "Sally and the president and a sandwich" can be grouped as either "[Sally and the president] and a sandwich"
+or "Sally and [the president and a sandwich]", which is an example of how NP -> NP Conj NP results in ambiguity. Likewise, "the sandwich with a pickle on the floor"
+can attach the PP "on the floor" to the NP "a pickle" or to the larger NP "the sandwich with a pickle".
 
+3. There are five ways to analyze the given noun phrase under grammar.gr. We have 4 smaller NPs here, which we label as follows: 
+        A = every sandwich
+        B = a pickle
+        C = the floor
+        D = the chief of staff
+
+    With these labels, the five possible structures are: 
+        1. (((A with B) on C) under D)
+
+        2. ((A with (B on C)) under D)
+
+        3. ((A with B) on (C under D))
+
+        4. (A with ((B on C) under D))
+
+        5. (A with (B on (C under D)))
+
+    The reason there are 5 is that each PP contains another NP, and that NP can itself receive another PP using NP -> NP PP. With three PPs, there are five distinct 
+    ways of arranging those recursive attachments.
+
+    ./parse corroborates this and says that there are 5 possible parses.
+
+4. Yes, there are certain patterns for which formulations result in more possible parses. For grammar.gr, ambiguity mainly comes from recursive rules like NP -> NP PP 
+and PP -> Prep NP. You can isolate the cause to these patterns by observing a sentence like "every president understood a sandwich", which has no PP chains and has 
+1 parse. Sentences with many PPs have more parses: “a floor pickled the pickle under a president in the chief of staff” has 2 parses, and “the pickle on a president 
+on the president under every pickle kissed every sandwich” has 5. The more PPs there ae, the more possible parses there are because you can attach different PPs to 
+different NPs.
+
+grammar3.gr also has the above PP ambiguity in parsing, but conjugations add another source of ambiguity through the rule NP -> NP Conj NP. For example, 
+“the chief of staff and the pickled pickled sandwich and Sally with Sally under a proposal thought and worked on Sally” has 14 parses, with a major source
+of ambiguity being how to join the different NPs with conjugations. Longer sentences combining many conjunctions and PPs had tens of thousands or even 
+millions of parses.
+
+Here's one from grammar3 that has 987,369,656 parses: 
+“that it perplexed Sally and Sally and Sally on Sally and Sally on Sally on every perplexed fine sandwich with the delicious chief of staff and the delicious
+ desk with the fine pickled perplexed floor and the perplexed very delicious pickle and Sally that every chief of staff on the floor and the desk and Sally and 
+ Sally and Sally under the perplexed proposal and Sally and a fine very fine perplexed delicious floor under Sally and Sally worked in Sally perplexed Sally !”
+
+5. 
+(a) p(best_parse) is so small because it calculates the probability that a random greenfield generation would generate the given parse tree. In this case, you
+multiply the probability of choosing each word or formulation (probability of that word or formulation/probability of the whole sample space) since they're each 
+independent, and you end up with 0.00005144. Here, ROOT -> S . has probability 1/3, because ROOT has 3 equally weighted rules, S -> NP VP has probability 1, 
+because it is the only S rule, for the first NP, NP -> Det Noun has probability 1/2, because NP can either become Det Noun or NP PP, Det -> the has probability 1/3, 
+Noun -> president has probability 1/6, VP -> Verb NP has probability 1, Verb -> ate has probability 1/5, for the second NP, again NP -> Det Noun is 1/2, 
+Det -> the is 1/3 and Noun -> sandwich is 1/6. Multiplying this all together: (1/3) * 1 * (1/2) * (1/3) * (1/6) * 1 * (1/5) * (1/2) * (1/3) * (1/6) = 1/19440 ~ 0.00005144.
+
+p(sentence) is equal to p(best_parse) because there's only one possible way of parsing the given sentence, and thus saying "There is X probability of generating
+this particular parse of the sentences and saying "There is X probability of generating this sentence" is the same thing.
+
+p(best_parse | sentence) = 1, again, because there's only one possible way of parsing the given sentence, and thus given the sentence the probability that its 
+tree is the best parse is 100%, or 1. 
+
+(b) Here, p(best_parse | sentence) = 0.5 because there's 2 different ways of parsing the sentence that are both equally probable - ie, multiplying the probability
+of choosing each word or formulation at each step gives you the same probability for both the parse trees. 

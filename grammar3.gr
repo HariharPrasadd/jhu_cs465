@@ -63,7 +63,6 @@
 
 4	ComNoun	Adj ComNoun
 
-3	Adj	Adj
 1	Adj	Adv Adj
 
 # Vocabulary. Your program can see that "ate" is a terminal
