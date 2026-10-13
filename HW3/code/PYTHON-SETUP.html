@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>PYTHON-SETUP</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">PYTHON-SETUP</h1>
+</header>
+<h1 id="python-setup">Python Setup</h1>
+<p>601.465/665 assumes familiarity with Python. This guide describes the recommended environment setup for completing homework assignments. It ensures that you’re using the same package versions as the course staff.</p>
+<p>You should use Python 3.12 for homework assignments. We recommend working locally with an editor such as VS Code and a Python virtual environment.</p>
+<p>The CS Linux machines are also available if you prefer to work remotely.</p>
+<h2 id="working-remotely-on-the-cs-linux-machines">Working remotely on the CS Linux machines</h2>
+<p>The CS Linux machines provide a shared Conda environment, <code>nlp-class</code>, with the packages required for this course.</p>
+<p>First, obtain a CS account by following the instructions in Dr. Eisner’s Piazza post. Then, connect over SSH to an available <strong><code>ugrad</code></strong> or <strong><code>grad</code></strong> machine (<a href="https://support.cs.jhu.edu/wiki/Connecting_to_CS_Systems_with_SSH">SSH guide</a>).</p>
+<p>After logging in, activate the shared environment:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate nlp-class</span></code></pre></div>
+<p>You can now run Python on the remote machine.</p>
+<p>You can also use VS Code remotely through the <a href="https://code.visualstudio.com/docs/remote/ssh">Remote - SSH extension</a>.</p>
+<h2 id="working-locally-on-your-own-machine-recommended">Working locally on your own machine (recommended)</h2>
+<h3 id="install-python">1. Install Python</h3>
+<p>Install Python 3.12 from the <a href="https://www.python.org/downloads/">official Python website</a>. Then open a new terminal and verify that you can run it:</p>
+<blockquote>
+<p>Some assignment helper scripts require Perl and a Unix-style shell. On macOS or Linux, confirm that Perl is installed by running <code>perl --version</code>. <em>On Windows, we recommend using <a href="https://learn.microsoft.com/windows/wsl/install">WSL</a> and following the Linux instructions</em>.</p>
+</blockquote>
+<p><strong>macOS or Linux</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3.12</span> <span class="at">--version</span></span></code></pre></div>
+<p><strong>Windows (PowerShell)</strong></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>py <span class="op">-</span>3<span class="op">.</span><span class="fu">12</span> <span class="op">--</span>version</span></code></pre></div>
+<h3 id="set-up-vs-code-if-you-havent-already">2. Set up VS Code (if you haven’t already)</h3>
+<p>Install <a href="https://code.visualstudio.com/">Visual Studio Code</a> and Microsoft’s <a href="https://marketplace.visualstudio.com/items?itemName=ms-python.python">Python extension</a>.</p>
+<p>For an introduction, see VS Code’s <a href="https://code.visualstudio.com/docs/python/python-tutorial">Python tutorial</a>.</p>
+<p>Open the assignment directory in VS Code with <strong>File &gt; Open Folder</strong>, then use the integrated terminal for the commands below.</p>
+<h3 id="create-a-virtual-environment-for-the-nlp-class">3. Create a virtual environment for the NLP class</h3>
+<p>Open a terminal with <strong>Terminal &gt; New Terminal</strong>, then follow these instructions to create a <a href="https://docs.python.org/3/library/venv.html">virtual environment</a> named <code>nlp-class</code>. You will use this environment for all NLP assignments throughout the semester.</p>
+<p><strong>macOS or Linux</strong></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">VENVS</span><span class="op">=</span>~/.venvs    <span class="co"># or another directory name you prefer</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="va">$VENVS</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python3.12</span> <span class="at">-m</span> venv <span class="va">$VENVS</span>/nlp-class</span></code></pre></div>
+<p><strong>Windows (PowerShell)</strong></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">$VENVS</span> <span class="op">=</span> <span class="op">~/</span>venvs    <span class="co"># or another directory name you prefer</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">New-Item</span> <span class="op">-</span>ItemType Directory <span class="op">-</span>Force <span class="va">$VENVS</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>py <span class="op">-</span>3<span class="op">.</span><span class="fu">12</span> <span class="op">-</span>m venv <span class="va">$VENVS</span><span class="op">/</span>nlp<span class="op">-</span>class</span></code></pre></div>
+<blockquote>
+<p>Optional: For larger or longer-lived Python projects, <a href="https://docs.astral.sh/uv/getting-started/installation/">⁠uv</a> is a fast, modern alternative for managing Python versions, virtual environments, and dependencies.</p>
+</blockquote>
+<h3 id="tell-vs-code-to-use-the-environment-for-your-homework">4. Tell VS Code to use the environment for your homework</h3>
+<p>Download the homework materials to a local directory. Open that directory in VS Code and then select the <code>nlp-class</code> environment.</p>
+<ol type="1">
+<li>Open the Command Palette (<code>Cmd/Ctrl+Shift+P</code>).</li>
+<li>Choose <strong>Python: Select Interpreter</strong>.</li>
+<li>Select the Python interpreter inside <code>$VENVS/nlp-class</code>. If it does not appear in the list, choose <strong>Enter interpreter path…</strong> and browse to <code>$VENVS/nlp-class/bin/python</code> on macOS or Linux, or <code>$VENVS/nlp-class/Scripts/python.exe</code> on Windows.</li>
+</ol>
+<p>VS Code will then associate the <code>nlp-class</code> environment with this project, using it for all of the project’s Python scripts, notebooks, tests, and tools.</p>
+<h3 id="tell-your-shell-to-use-the-environment">5. Tell your shell to use the environment</h3>
+<p>VS Code will automatically activate <code>nlp-class</code> when you open a new integrated terminal. If you want to run Python from a terminal outside VS Code, or if automatic activation does not occur, you need to first activate <code>nlp-class</code> within that particular shell session.</p>
+<p><strong>macOS or Linux</strong></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> <span class="va">$VENVS</span>/nlp-class/bin/activate</span></code></pre></div>
+<p><strong>Windows (PowerShell)</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode powershell"><code class="sourceCode powershell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">$VENVS</span><span class="op">/</span>nlp<span class="op">-</span>class<span class="op">/</span>Scripts<span class="op">/</span>Activate<span class="op">.</span><span class="fu">ps1</span></span></code></pre></div>
+<blockquote>
+<p>PowerShell may initially block activation scripts. See the Python <a href="https://docs.python.org/3/library/venv.html"><code>venv</code> documentation</a> for the recommended execution policy setting.</p>
+</blockquote>
+<h3 id="populate-the-nlp-class-environment">6. Populate the <code>nlp-class</code> environment</h3>
+<p>So far, <code>nlp-class</code> is an empty environment: no special packages will be available. So let’s add the packages required for the assignment. With <code>nlp-class</code> activated, run:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">--upgrade</span> pip</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">--upgrade</span> <span class="at">-r</span> requirements.txt</span></code></pre></div>
+<p>where <code>requirements.txt</code> was provided in the homework directory.</p>
+<p>For your convenience, we are trying to use the same <code>requirements.txt</code> for the entire course, so you’ll probably only have to do this for HW1 and never again.</p>
+<p><strong>Note:</strong> If your solution needs any additional packages that were not in the starter code, please add them to <code>requirements.txt</code> yourself (rerunning the above commands) and include that file in your submitted code. Then the autograder will be able to find the additional packages and everything will run.</p>
+<h3 id="run-your-code">7. Run your code</h3>
+<p>Each time you work on an assignment:</p>
+<ol type="1">
+<li>Open the assignment’s directory in VS Code. VS Code will remember that you were using the <code>nlp-class</code> environment.</li>
+<li>Open a new terminal. VS Code should automatically activate <code>nlp-class</code>. Then you can run your code:</li>
+</ol>
+<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> your_program.py</span></code></pre></div>
+</body>
+</html>
